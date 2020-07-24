@@ -19,6 +19,17 @@ class Cart
 
     [total_amount, discounted_amount]
   end
+
+  def items_breakup
+    return [] if @items.empty?
+
+    result = []
+    items_group = @items.group_by { |item| item.name }
+    items_group.each { |name, list| 
+      result << [name, list.size, "$#{collection_bulk_price(list)}"]
+    }
+    result
+  end
   
   private
 
