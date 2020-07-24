@@ -36,8 +36,9 @@ items.each { |item|
   cart.add_item(grocery_item)
 }
 
-
-puts "Total price: #{cart.bill_amount}"
+bill_amount = cart.bill_amount
+puts "Total price: $#{bill_amount[1]}"
+puts "You saved $#{(bill_amount[0] - bill_amount[1]).round(2)} today"
 
 
 
