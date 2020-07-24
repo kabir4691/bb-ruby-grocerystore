@@ -7,6 +7,7 @@ puts "Please enter all the items purchased separated by a comma"
 
 input = gets.chomp
 items = input.split(',')
+items.each { |item| item.strip! }
 
 if items.empty? 
   puts 'No items entered'
