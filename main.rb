@@ -47,7 +47,7 @@ puts items_table
 puts "\n"
 
 bill_amount = cart.bill_amount
-puts "Total price: $#{bill_amount[1]}"
+puts "Total price: $#{bill_amount[1].round(2)}"
 puts "You saved $#{(bill_amount[0] - bill_amount[1]).round(2)} today"
 
 
