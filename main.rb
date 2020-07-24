@@ -1,7 +1,6 @@
+require_relative 'constants'
 require_relative 'cart'
 require_relative 'grocery_item'
-
-ITEM_NAMES = ['milk', 'bread', 'banana', 'apple'].freeze
 
 puts "Please enter all the items purchased separated by a comma"
 
@@ -14,7 +13,7 @@ if items.empty?
   abort
 end
 
-items.select! { |item| ITEM_NAMES.include?(item) }
+items.select! { |item| Constants::ITEM_NAMES.include?(item) }
 
 if items.empty? 
   puts 'Please enter valid items'
