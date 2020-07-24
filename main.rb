@@ -1,6 +1,7 @@
 require_relative 'constants'
 require_relative 'cart'
 require_relative 'grocery_item'
+require 'terminal-table/import'
 
 puts "Please enter all the items purchased separated by a comma"
 
@@ -35,6 +36,15 @@ items.each { |item|
   end
   cart.add_item(grocery_item)
 }
+
+puts "\n"
+items_breakup = cart.items_breakup
+items_table = table { |t|
+  t.headings = "Item", "Quantity", "Price"
+  items_breakup.each { |row| t << row }
+}
+puts items_table
+puts "\n"
 
 bill_amount = cart.bill_amount
 puts "Total price: $#{bill_amount[1]}"
