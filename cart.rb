@@ -1,3 +1,6 @@
+require_relative 'bill'
+require 'terminal-table/import'
+
 class Cart
 
   def initialize
@@ -8,8 +11,8 @@ class Cart
     @items << grocery_item
   end
 
-  def bill_amount
-    return [0, 0] if @items.empty? 
+  def bill
+    return Bill.new if @items.empty? 
 
     total_amount = @items.map { |item| item.price }.inject(:+)
     items_group = @items.group_by { |item| item.name }
@@ -17,18 +20,25 @@ class Cart
       total += collection_bulk_price(list)
     }   
 
-    [total_amount, discounted_amount]
+    return Bill.new(total_amount, total_amount - discounted_amount)
   end
 
-  def items_breakup
-    return [] if @items.empty?
+  def to_table_string
+    rows = []
 
-    result = []
-    items_group = @items.group_by { |item| item.name }
-    items_group.each { |name, list| 
-      result << [name, list.size, "$#{collection_bulk_price(list)}"]
+    unless @items.empty?
+      items_group = @items.group_by { |item| item.name }
+      items_group.each { |name, list| 
+        rows << [name, list.size, "$#{collection_bulk_price(list)}"]
+      }
+    end
+
+    cart_table = table { |t|
+      t.headings = "Item", "Quantity", "Price"
+      rows.each { |row| t << row }
     }
-    result
+
+    return cart_table.to_s
   end
   
   private
@@ -42,6 +52,6 @@ class Cart
     
     quotient = size / item.sale_amount
     remainder = size % item.sale_amount
-    (quotient * item.sale_price) + (remainder * item.price)
+    return (quotient * item.sale_price) + (remainder * item.price)
   end
 end
